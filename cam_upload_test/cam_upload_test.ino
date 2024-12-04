@@ -8,7 +8,7 @@
 
 LiquidCrystal_I2C lcd(0x27,20,4);
 
-#define PN532_SS   (15)
+#define PN532_SS 33
 Adafruit_PN532 nfc(PN532_SS);
 
 // WiFi credentials
@@ -60,6 +60,8 @@ void setup() {
   }
   Serial.println("\nWiFi connected!");
 
+
+
   Serial.print("RC532 CS state befor init: ");
 
   int csState = digitalRead(PN532_SS); // Read the CS pin state
@@ -70,13 +72,13 @@ void setup() {
     Serial.println("LOW");
   }
 
-  nfc.begin();
+  // nfc.begin();
   
   Serial.print("RC532 CS state after init: ");
 
-  csState = digitalRead(PN532_SS); // Read the CS pin state
+  int csState1 = digitalRead(PN532_SS); // Read the CS pin state
   Serial.print("CS pin state: ");
-  if (csState == HIGH) {
+  if (csState1 == HIGH) {
     Serial.println("HIGH");
   } else {
     Serial.println("LOW");
@@ -107,13 +109,22 @@ bool captureImage() {
   myCAM.clear_fifo_flag();
   myCAM.start_capture();
 
-  digitalWrite(CS_PIN, LOW);
+  Serial.print("ArduCAM CS state before image: ");
+
+  int csState = digitalRead(CS_PIN); // Read the CS pin state
+  Serial.print("CS pin state: ");
+  if (csState == HIGH) {
+    Serial.println("HIGH");
+  } else {
+    Serial.println("LOW");
+  }
+
 
   Serial.print("RC532 CS state before image: ");
 
-  int csState = digitalRead(PN532_SS); // Read the CS pin state
+  int csState1 = digitalRead(PN532_SS); // Read the CS pin state
   Serial.print("CS pin state: ");
-  if (csState == HIGH) {
+  if (csState1 == HIGH) {
     Serial.println("HIGH");
   } else {
     Serial.println("LOW");
@@ -126,9 +137,9 @@ bool captureImage() {
 
   Serial.print("RC532 CS state after image: ");
 
-  csState = digitalRead(PN532_SS); // Read the CS pin state
+  int csState2 = digitalRead(PN532_SS); // Read the CS pin state
   Serial.print("CS pin state: ");
-  if (csState == HIGH) {
+  if (csState2 == HIGH) {
     Serial.println("HIGH");
   } else {
     Serial.println("LOW");
