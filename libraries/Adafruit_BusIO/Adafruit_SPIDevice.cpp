@@ -17,7 +17,7 @@ Adafruit_SPIDevice::Adafruit_SPIDevice(int8_t cspin, uint32_t freq,
 #ifdef BUSIO_HAS_HW_SPI
   _cs = cspin;
   _sck = _mosi = _miso = -1;
-  _spi = theSPI;
+  _spi = new SPIClass(HSPI);
   _begun = false;
   _spiSetting = new SPISettings(freq, dataOrder, dataMode);
   _freq = freq;
